@@ -10,8 +10,8 @@ data class MovieListEntity(
     val results: List<Movie>,
 
     @SerializedName("total_pages")
-    val total_pages: Int,
+    val total_pages: Int?,
 
     @SerializedName("total_results")
-    val total_results: Int
+    val total_results: Int?
 )

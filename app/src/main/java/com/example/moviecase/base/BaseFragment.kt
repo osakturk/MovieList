@@ -8,9 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviecase.di.scope.Injectable
+import java.util.HashMap
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment(), Injectable {
@@ -34,17 +36,15 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, getLayoutId, container, false)
-        baseActivity = activity as BaseActivity
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //deprecated -> ViewModelProviders.of
         viewModel = ViewModelProvider(this, viewModelFactory).get(viewModelClass)
-
-        observe()
         binding.lifecycleOwner = this
+        baseActivity = activity as BaseActivity
+        observe()
     }
 
     private fun observe() {
@@ -52,7 +52,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
             showErrorDialog(it.title, it.message)
         })
 
-        viewModel.loading.observe(this, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) showLoading()
                 else hideLoading()
@@ -80,4 +80,16 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
                 .show()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            viewModel.loading.removeObservers(this)
+            viewModel.errorMessage.removeObservers(this)
+        } catch (e: UninitializedPropertyAccessException) {
+
+        }
+    }
+
+
 }

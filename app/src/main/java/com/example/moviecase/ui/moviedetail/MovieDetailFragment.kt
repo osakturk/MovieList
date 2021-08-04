@@ -36,12 +36,14 @@ class MovieDetailFragment : BaseFragment<MovieDetailViewModel, MovieDetailFragme
     private fun observe() {
         var count = 0
         viewModel.data.observe(this, Observer { data ->
-            Picasso.get().load(BuildConfig.BASE_URL + data.poster_path.replace("/","")).into(binding.productImageView)
+            binding.productImageView.let{
+                Picasso.get().load(BuildConfig.BASE_URL + data.poster_path?.replace("/","")).into(it)
+            }
             binding.overviewValue.text = data.overview
             binding.voteAverage.text = data.vote_average.toString()
             binding.productTitleText.text = data.original_title
             binding.releaseDateValue.text = data.release_date
-            data.spoken_languages.forEach{language ->
+            data.spoken_languages?.forEach{language ->
                 binding.spokenLanguagesValue.append(language.english_name)
                 if (count < data.spoken_languages.size -1){
                     binding.spokenLanguagesValue.append(", ")
@@ -49,7 +51,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailViewModel, MovieDetailFragme
                 count++
             }
             count = 0
-            data.genres.forEach{ genre ->
+            data.genres?.forEach{ genre ->
                 binding.genresValue.append(genre.name)
                 if (count < data.genres.size -1){
                     binding.genresValue.append(", ")
@@ -57,7 +59,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailViewModel, MovieDetailFragme
                 count++
             }
             count = 0
-            data.production_companies.forEach{company ->
+            data.production_companies?.forEach{company ->
                 binding.productionCompaniesValue.append(company.name)
                 if (count < data.production_companies.size -1){
                     binding.productionCompaniesValue.append(", ")
@@ -65,7 +67,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailViewModel, MovieDetailFragme
                 count++
             }
             count = 0
-            data.production_countries.forEach{country ->
+            data.production_countries?.forEach{country ->
                 binding.productionCountriesValue.append(country.name)
                 if (count < data.production_countries.size -1){
                     binding.productionCountriesValue.append(", ")

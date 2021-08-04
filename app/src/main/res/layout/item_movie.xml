@@ -64,7 +64,7 @@
                 android:text="@{String.valueOf(data.vote_average)}"
                 app:layout_constraintStart_toStartOf="@id/productImageView"
                 app:layout_constraintBottom_toTopOf="@id/productTitleText"
-                tools:text="49 TL" />
+                tools:text="9.9" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
