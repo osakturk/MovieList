@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.moviecase.model.Movie"
+            />
+
+        <variable
+            name="callback"
+            type="com.example.moviecase.interfaces.IMovie"
+            />
+
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:onClick="@{()-> callback.onMovieSelected(data.id)}">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/productImageView"
+                loadImage="@{data.poster_path}"
+                android:layout_width="160dp"
+                android:layout_height="160dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/productTitleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@{data.title}"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                app:layout_constraintEnd_toEndOf="@id/productImageView"
+                app:layout_constraintStart_toStartOf="@id/productImageView"
+                app:layout_constraintBottom_toBottomOf="@id/productImageView"
+                tools:text="aksnfanfsşalsaşfas" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/vote_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/movie_ff6a6a"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                android:text="@{String.valueOf(data.vote_average)}"
+                app:layout_constraintStart_toStartOf="@id/productImageView"
+                app:layout_constraintBottom_toTopOf="@id/productTitleText"
+                tools:text="49 TL" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>
